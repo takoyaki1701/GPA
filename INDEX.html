@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sinh Viên</title>
+</head>
+<body>
+    <h2>Thông Tin Sinh Viên</h2>
+    <label for="numStudents">Nhập số lượng sinh viên:</label>
+    <input type="number" id="numStudents" value="1">
+    <button onclick="createStudentForms()">Nhập Thông Tin</button>
+    <button onclick="displayStudents()">Hiển Thị Thông Tin</button>
+    <div id="studentForms"></div>
+    <h3>Danh Sách Sinh Viên</h3>
+    <div id="studentList"></div>
+
+    <script>
+        let students = [];
+
+        function createStudentForms() {
+            const numStudents = document.getElementById("numStudents").value;
+            const studentForms = document.getElementById("studentForms");
+            studentForms.innerHTML = ''; // Clear previous forms
+            for (let i = 0; i < numStudents; i++) {
+                studentForms.innerHTML += `
+                    <div>
+                        <h4>Sinh Viên ${i + 1}</h4>
+                        Mã SV: <input type="text" id="id${i}">
+                        Họ và Tên: <input type="text" id="name${i}">
+                        Ngày sinh: <input type="date" id="dob${i}">
+                        Lớp học: <input type="text" id="class${i}">
+                        GPA: <input type="number" step="0.01" id="gpa${i}" min="0" max="4">
+                        <button onclick="saveStudent(${i})">Lưu Sinh Viên</button>
+                    </div>
+                `;
+            }
+        }
+
+        function saveStudent(index) {
+            const student = {
+                id: document.getElementById(`id${index}`).value,
+                name: document.getElementById(`name${index}`).value,
+                dob: document.getElementById(`dob${index}`).value,
+                class: document.getElementById(`class${index}`).value,
+                gpa: document.getElementById(`gpa${index}`).value,
+            };
+            students[index] = student; // Save or update the student at the index
+            alert(`Đã lưu thông tin sinh viên ${student.name}`);
+        }
+
+        function displayStudents() {
+            const studentList = document.getElementById("studentList");
+            studentList.innerHTML = students.map((student, index) => `
+                <div>
+                    <h4>Sinh Viên ${index + 1}</h4>
+                    Mã SV: ${student.id}, Họ và Tên: ${student.name}, Ngày sinh: ${student.dob},
+                    Lớp: ${student.class}, GPA: ${student.gpa}
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
